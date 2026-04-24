@@ -37,7 +37,7 @@ The skill produces a structured Markdown report with the following skeleton.
 ```
 # Aggregate Invariant Audit: {ClassName}
 
-{One-line summary stating the confident and review finding counts, e.g. "2 confident findings, 1 review finding" or "No findings."}
+{Summary line — see "Summary line format" below.}
 
 ## Confident Findings
 
@@ -52,10 +52,48 @@ The skill produces a structured Markdown report with the following skeleton.
 - {One bullet per finding — file:line citation plus a brief question.}
 ```
 
+### Summary line format
+
+The summary line breaks down the count by category in parentheses, so a wrong total does not add up and is caught by
+the reader (and by you, on re-read). The format is:
+
+`{N} confident finding(s) ({A} unguarded + {B} creation event + {C} domain event), {M} review finding(s) ({D} constructor gap).`
+
+Omit any category whose count is zero from the parenthetical, and drop the parenthetical entirely when its tier has no
+findings. When both tiers are empty, the summary line is `No findings.` Examples:
+
+- `5 confident findings (2 unguarded + 1 creation event + 2 domain event), 4 review findings (4 constructor gap).`
+- `2 confident findings (2 unguarded), 0 review findings.`
+- `0 confident findings, 1 review finding (1 constructor gap).`
+- `No findings.`
+
+The breakdown is not decorative. It is the mechanism that prevents the count from drifting away from the rendered list.
+A reader (or you, on re-read) can verify the total by adding the parenthetical numbers; if they do not sum to the
+leading total, the report is internally inconsistent and must be corrected before emission.
+
+### Production order
+
+This is a strict procedure, not a suggestion. Follow it in order.
+
+1. Identify findings during analysis. Do not write the report yet.
+2. Render the report body — everything from `## Confident Findings` through the end of `## Review Findings`. Do not
+   yet write the title or the summary line.
+3. Re-read the body you just produced. Count bullets per category, literally, by scanning your own output. Write the
+   four counts down explicitly (A, B, C for confident; D for review).
+4. Compute N = A + B + C and M = D.
+5. Now prepend the title line, a blank line, and the summary line using the format above with the counts from step 3.
+6. Emit the final report top-to-bottom.
+
+Do not skip step 3. The miscount failure mode happens when the agent writes the summary from memory of the analysis
+pass instead of from the rendered text. Counting from the rendered text is the entire point — if you count from the
+analysis pass, the breakdown format will not save you.
+
 When a tier contains findings, group them under a `### Category name` subsection per category present (see Finding
-Categories below for the three category names). When a tier is empty, write the single line "No confident findings." or
-"No review findings." with no subsection headers — empty categories are not rendered at all. A reader scanning a clean
-audit should see "No confident findings." and "No review findings." plainly, not a wall of empty subsections.
+Categories below for the three category names). Subsection headings are always singular regardless of how many findings
+the category contains — `### Unguarded state transition`, not `### Unguarded state transitions`. When a tier is empty,
+write the single line "No confident findings." or "No review findings." with no subsection headers — empty categories
+are not rendered at all. A reader scanning a clean audit should see "No confident findings." and "No review findings."
+plainly, not a wall of empty subsections.
 
 One finding per bullet. Do not merge multiple findings into a single bullet, even when they share a category, sit on
 adjacent lines, or trace to the same underlying cause. Each distinct method, parameter, or line gets its own entry; the
@@ -74,11 +112,9 @@ The conventions file is the single source of truth on tier assignment; if it say
 state-changing method without a recording call is a confident finding, full stop. Ambient context is for the developer
 reading the report, not for the skill producing it.
 
-The summary count is derived from the rendered list of findings, not from the analysis pass. Draft the two finding
-lists first, then count the entries you have written in each tier, then write the summary line using those counts.
-Emit the final report top-to-bottom only after the counts and lists agree. Do not write the summary first and revise it
-as the lists form — that is the most common failure mode on this skill and produces reports that contradict themselves
-in the same response. The summary line reflects what is on the page, not what the analysis pass intended to put there.
+The summary count is derived from the rendered list of findings, not from the analysis pass. The Production Order
+procedure above is the binding mechanism for this — follow it. The breakdown format is the second line of defence:
+even if the numbers drift, an inconsistent total will not add up and the error becomes self-evident on re-read.
 
 ## Finding Categories
 

@@ -1,6 +1,6 @@
 # Aggregate Invariant Audit: MatchGuarded
 
-1 confident finding, 0 review findings.
+1 confident finding (1 domain event), 0 review findings.
 
 ## Confident Findings
 

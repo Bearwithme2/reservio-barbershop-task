@@ -1,6 +1,6 @@
 # Aggregate Invariant Audit: BareSetters
 
-6 confident findings, 0 review findings.
+6 confident findings (3 unguarded + 3 domain event), 0 review findings.
 
 ## Confident Findings
 

@@ -1,6 +1,6 @@
 # Aggregate Invariant Audit: PrimitiveConstructor
 
-1 confident finding, 3 review findings.
+1 confident finding (1 creation event), 3 review findings (3 constructor gap).
 
 ## Confident Findings
 
