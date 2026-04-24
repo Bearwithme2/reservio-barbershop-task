@@ -55,6 +55,10 @@ user-facing error.
 Because `Booking::confirm` performs no state check, a rejected booking can be silently re-confirmed back into the index
 scope. A state-transition guard on the aggregate would close this.
 
+## Bonus: Aggregate Invariant Audit Skill
+
+A Claude Code skill at `.claude/skills/aggregate-invariant-audit/` audits a single PHP class for unguarded state transitions, missing domain events, and constructor primitive gaps, reporting findings in two tiers (confident vs. review). Running it against `Booking.php` reproduces the gaps documented above. A self-contained test suite lives under `test/` with seven fixtures and expected outputs; `test/README.md` shows how to invoke it.
+
 ## Follow-up Work for Production
 
 - Domain events for booking state changes, dispatched via a transactional outbox, decouple notifications and webhooks

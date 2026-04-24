@@ -1,0 +1,14 @@
+# Conventions used by the skill test suite. Pin these so test runs are deterministic.
+# To exercise the test suite, the agent should read this file in place of the project's
+# .claude/conventions.yaml.
+
+aggregate_audit:
+  value_objects:
+    - App\Domain\ValueObject\Uuid
+    - App\Domain\Barbershop\ValueObject\Slot
+
+  wrap_primitives:
+    - string
+    - DateTimeImmutable
+
+  events_expected: true

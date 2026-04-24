@@ -1,0 +1,38 @@
+# Copy this file to .claude/conventions.yaml in your repository root and edit.
+#
+# Conventions file for Claude Code skills that require project-specific vocabulary.
+# Each skill reads only its own top-level section, so sibling skills can coexist here.
+
+aggregate_audit:
+  # Fully qualified type names the project uses as value objects.
+  # The aggregate audit skill treats these as correctly-wrapped types
+  # and will not flag constructor parameters of these types.
+  value_objects:
+    - App\Domain\ValueObject\Uuid
+    - App\Domain\ValueObject\Email
+    - App\Domain\ValueObject\Money
+    - App\Domain\ValueObject\Slot
+
+  # Primitive types the project considers to require wrapping.
+  # The skill flags constructor parameters of these types as review findings.
+  # Common candidates to add: `string` for names and contact info,
+  # `DateTimeImmutable` for time fields when your project wraps them.
+  # Empty list = category runs but produces no findings.
+  # Remove the key entirely or delete this file to suppress the category.
+  wrap_primitives: []
+
+  # Whether the project uses domain events.
+  # When true, state-changing methods without a recording call are confident findings.
+  # When false or absent, the same finding is reported in the review tier.
+  # Default ships as false so the skill does not escalate against projects
+  # that have not yet declared an event-driven architecture.
+  events_expected: false
+
+  # Method names the skill recognises as event recording.
+  # Defaults are documented in SKILL.md (`recordThat`, `raise`, `record`).
+  # Uncomment and edit to override. Event-sourced projects should add `apply`
+  # explicitly if their aggregates use it for recording rather than replay.
+  # event_recording_patterns:
+  #   - recordThat
+  #   - raise
+  #   - record

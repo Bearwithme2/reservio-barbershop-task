@@ -1,0 +1,11 @@
+aggregate_audit:
+  value_objects:
+    - App\Domain\ValueObject\Uuid
+    - App\Infrastructure\ValueObject\Uuid
+    - App\Domain\Barbershop\ValueObject\Slot
+
+  wrap_primitives:
+    - string
+    - DateTimeImmutable
+
+  events_expected: true
