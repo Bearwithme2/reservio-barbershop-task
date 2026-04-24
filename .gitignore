@@ -1,0 +1,32 @@
+# PHP
+backend/vendor/
+backend/var/
+backend/temp/
+backend/logs/
+*.sqlite
+*.sqlite-journal
+
+# Node / Next
+frontend/node_modules/
+frontend/.next/
+frontend/build/
+frontend/out/
+frontend/.yarn/cache/
+frontend/.yarn/install-state.gz
+
+# Env files (keep examples)
+.env
+.env.local
+.env.*.local
+!.env.local.example
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+.claude/settings.local.json
+
+# Test artifacts
+backend/.phpunit.cache/
+backend/.phpunit.result.cache
