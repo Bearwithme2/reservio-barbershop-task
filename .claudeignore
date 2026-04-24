@@ -1,0 +1,23 @@
+# PHP
+backend/vendor/
+backend/var/
+backend/temp/
+backend/logs/
+*.sqlite
+*.sqlite-journal
+
+# Node / Next
+frontend/node_modules/
+frontend/.next/
+frontend/build/
+frontend/out/
+
+# Env
+.env
+.env.*
+!.env.local.example
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
